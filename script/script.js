@@ -189,3 +189,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Sumbmit form
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('submit').addEventListener('submit', function(event) {
+        event.preventDefault();
+        document.querySelector('.form').style.display = 'none';
+        document.querySelector('.complete').style.display = 'flex';
+    });
+});
