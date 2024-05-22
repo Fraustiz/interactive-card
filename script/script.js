@@ -140,12 +140,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     form.addEventListener('submit', function(event) {
-        if (nameInput.value.trim() === '' || nameInput.value.length < 16) {
+        if (numberInput.value.trim() === '' || numberInput.value.length < 16) {
             event.preventDefault();
-            nameInput.classList.add('error');
+            numberInput.classList.add('error');
             errorMessage.style.display = 'block';
         } else {
-            nameInput.classList.remove('error');
+            numberInput.classList.remove('error');
             errorMessage.style.display = 'none';
         }
     });
