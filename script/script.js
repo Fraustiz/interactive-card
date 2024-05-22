@@ -122,9 +122,22 @@ document.addEventListener('DOMContentLoaded', function() {
 // Number error
 
 document.addEventListener('DOMContentLoaded', function() {
-    const nameInput = document.getElementById('number');
-    const errorMessage = document.getElementById('error-number');
-    const form = document.getElementById('submit');
+    let numberInput = document.getElementById('number');
+    let errorMessage = document.getElementById('error-number');
+    let form = document.getElementById('submit');
+
+    function blockSpecialChar(e) {
+        let k = e.keyCode || e.which;
+        let isNumeric = (k >= 48 && k <= 57);
+        let isControlChar = k === 8 || k === 32;
+        return isNumeric || isControlChar;
+    }
+
+    numberInput.addEventListener('keypress', function (e) {
+        if (!blockSpecialChar(e)) {
+            e.preventDefault();
+        }
+    });
 
     form.addEventListener('submit', function(event) {
         if (nameInput.value.trim() === '' || nameInput.value.length < 16) {
@@ -141,31 +154,51 @@ document.addEventListener('DOMContentLoaded', function() {
 // Date error
 
 document.addEventListener('DOMContentLoaded', function() {
-    const nameInput1 = document.getElementById('date-m');
-    const nameInput2 = document.getElementById('date-y');
+    const dateInputMonth = document.getElementById('date-m');
+    const dateInputYear = document.getElementById('date-y');
     const errorMessage = document.getElementById('error-date');
     const form = document.getElementById('submit');
 
+    function blockSpecialChar(e) {
+        const k = e.keyCode || e.which;
+        const isNumeric = (k >= 48 && k <= 57);
+        const isControlChar = k === 8 || k === 32;
+        return isNumeric || isControlChar;
+    }
+
+    dateInputMonth.addEventListener('keypress', function (e) {
+        if (!blockSpecialChar(e)) {
+            e.preventDefault();
+        }
+    });
+
+    dateInputYear.addEventListener('keypress', function (e) {
+        if (!blockSpecialChar(e)) {
+            e.preventDefault();
+        }
+    });
+
     form.addEventListener('submit', function(event) {
+
         // Input 1
-        if (nameInput1.value.trim() === '' || nameInput1.value.length < 2) {
+        if (dateInputMonth.value.trim() === '' || dateInputMonth.value.length < 2) {
             event.preventDefault();
-            nameInput1.classList.add('error');
+            dateInputMonth.classList.add('error');
             errorMessage.style.display = 'block';
-        } else if (nameInput1.value.trim() !== '' || nameInput1.value.length == 2) {
-            nameInput1.classList.remove('error');
+        } else if (dateInputMonth.value.trim() !== '' || dateInputMonth.value.length == 2) {
+            dateInputMonth.classList.remove('error');
         }
         
         // Input 2
-        if (nameInput2.value.trim() === '' || nameInput2.value.length < 2) {
+        if (dateInputYear.value.trim() === '' || dateInputYear.value.length < 2) {
             event.preventDefault();
-            nameInput2.classList.add('error');
+            dateInputYear.classList.add('error');
             errorMessage.style.display = 'block';
-        } else if ((nameInput2.value.trim() !== '' || nameInput2.value.length == 2) ) {
-            nameInput2.classList.remove('error');
+        } else if ((dateInputYear.value.trim() !== '' || dateInputYear.value.length == 2) ) {
+            dateInputYear.classList.remove('error');
         }
         
-        if ((nameInput1.value.trim() !== '' || nameInput1.value.length == 2) && (nameInput2.value.trim() !== '' || nameInput2.value.length == 2)) {
+        if ((dateInputMonth.value.trim() !== '' || dateInputMonth.value.length == 2) && (dateInputYear.value.trim() !== '' || dateInputYear.value.length == 2)) {
             errorMessage.style.display = 'none';
         }
     });
@@ -174,17 +207,30 @@ document.addEventListener('DOMContentLoaded', function() {
 // Cvc error
 
 document.addEventListener('DOMContentLoaded', function() {
-    const nameInput = document.getElementById('cvc');
+    const cvcInput = document.getElementById('cvc');
     const errorMessage = document.getElementById('error-cvc');
     const form = document.getElementById('submit');
 
+    function blockSpecialChar(e) {
+        const k = e.keyCode || e.which;
+        const isNumeric = (k >= 48 && k <= 57);
+        const isControlChar = k === 8 || k === 32;
+        return isNumeric || isControlChar;
+    }
+
+    cvcInput.addEventListener('keypress', function(e) {
+        if (!blockSpecialChar(e)) {
+            e.preventDefault();
+        }
+    });
+
     form.addEventListener('submit', function(event) {
-        if (nameInput.value.trim() === '' || nameInput.value.length < 3) {
+        if (cvcInput.value.trim() === '' || cvcInput.value.length < 3) {
             event.preventDefault();
-            nameInput.classList.add('error');
+            cvcInput.classList.add('error');
             errorMessage.style.display = 'block';
         } else {
-            nameInput.classList.remove('error');
+            cvcInput.classList.remove('error');
             errorMessage.style.display = 'none';
         }
     });
@@ -193,8 +239,23 @@ document.addEventListener('DOMContentLoaded', function() {
 // Sumbmit form
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('submit').addEventListener('submit', function(event) {
-        event.preventDefault();
-        document.querySelector('.form').style.display = 'none';
-        document.querySelector('.complete').style.display = 'flex';
+        const nameInput1 = document.getElementById('date-m');
+        const nameInput2 = document.getElementById('date-y');
+        const cvcInput = document.getElementById('cvc');
+
+        if (!nameInput1.classList.contains('error') && 
+            !nameInput2.classList.contains('error') && 
+            !cvcInput.classList.contains('error')) {
+            event.preventDefault();
+            document.querySelector('.form').style.display = 'none';
+            document.querySelector('.complete').style.display = 'flex';
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const continueButton = document.querySelector('.complete');
+    continueButton.addEventListener('click', function() {
+        location.reload();
     });
 });
